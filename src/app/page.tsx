@@ -2,12 +2,15 @@ import {
   ArrowRight,
   Check,
   CircleGauge,
+  Clock3,
+  Eye,
+  HeartHandshake,
   ShieldCheck,
+  Sparkles,
   Workflow,
 } from "lucide-react";
 import { ArchitectureDiagram } from "@/components/architecture-diagram";
 import { FAQ } from "@/components/faq";
-import { TelemetryVisual } from "@/components/telemetry";
 import {
   ButtonLink,
   Container,
@@ -24,14 +27,19 @@ export default function Home() {
       <section className="hero">
         <Container className="hero-grid">
           <div className="hero-copy">
-            <Eyebrow>Industrial data, made operational</Eyebrow>
+            <div className="hero-kicker">
+              <span>
+                <Sparkles /> Practical industrial intelligence
+              </span>
+              <span>Built around your machines</span>
+            </div>
             <h1>
-              Turn machine data into <span>decisions.</span>
+              Know what your machines are doing—<span>wherever you are.</span>
             </h1>
             <p>
-              We connect PLCs, sensors, and industrial gateways to secure cloud
-              platforms—then build the dashboards, alerts, reports, and customer
-              applications your teams can actually use.
+              Give operators, owners, and service teams one clear view of
+              production, downtime, energy, and alarms—without replacing the
+              equipment that already works.
             </p>
             <div className="hero-actions">
               <ButtonLink href={siteConfig.demoUrl}>
@@ -43,25 +51,101 @@ export default function Home() {
             </div>
             <div className="hero-proof">
               <span>
-                <Check /> Protocol-aware
+                <Check /> Start with one machine
               </span>
               <span>
-                <Check /> Pilot-first
+                <Check /> Works with existing PLCs
               </span>
               <span>
-                <Check /> Cloud-flexible
+                <Check /> Clear handover and support
               </span>
             </div>
           </div>
-          <TelemetryVisual />
+          <div
+            className="hero-scene"
+            role="img"
+            aria-label="An operations engineer reviewing machine information on a tablet beside a production line"
+          >
+            <div className="hero-scene-card">
+              <div>
+                <span className="live-dot" /> Line 04 is running
+              </div>
+              <strong>All key signals in one place</strong>
+              <div className="scene-stats">
+                <span>
+                  <b>1,284</b>
+                  <small>shift output</small>
+                </span>
+                <span>
+                  <b>7.2 bar</b>
+                  <small>pressure</small>
+                </span>
+                <span>
+                  <b>0</b>
+                  <small>critical alarms</small>
+                </span>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+      <section className="trust-ribbon" aria-label="Who we help">
+        <Container>
+          <span>Built for practical industrial teams</span>
+          <div>Manufacturers</div>
+          <div>Machine OEMs</div>
+          <div>Plant owners</div>
+          <div>Service teams</div>
+        </Container>
+      </section>
+      <section className="section outcome-section">
+        <Container>
+          <SectionHeading
+            eyebrow="A calmer way to run operations"
+            title="Less chasing. More knowing."
+            text="The value is not another dashboard. It is giving every person the context they need to act sooner and communicate better."
+            align="center"
+          />
+          <div className="outcome-grid">
+            <article>
+              <span>
+                <Eye />
+              </span>
+              <h3>See the whole picture</h3>
+              <p>
+                Live machine state, production, trends, and alarms in one
+                view—at the plant or away from it.
+              </p>
+            </article>
+            <article>
+              <span>
+                <Clock3 />
+              </span>
+              <h3>Respond with context</h3>
+              <p>
+                Understand what changed before the phone call, so maintenance
+                and service teams arrive better prepared.
+              </p>
+            </article>
+            <article>
+              <span>
+                <HeartHandshake />
+              </span>
+              <h3>Build trust with clarity</h3>
+              <p>
+                Give operators, managers, and customers a shared source of truth
+                without forcing a one-size-fits-all platform.
+              </p>
+            </article>
+          </div>
         </Container>
       </section>
       <section className="section">
         <Container>
           <SectionHeading
-            eyebrow="The visibility gap"
-            title="The machine is producing data. The business still lacks answers."
-            text="We turn isolated controller values into shared operational context—without pretending every factory needs the same platform."
+            eyebrow="What gets in the way"
+            title="Good machines should not leave people guessing."
+            text="We turn isolated controller values into useful shared context, shaped around how your operation actually works."
           />
           <div className="card-grid four">
             {problems.map(({ icon: Icon, title, text }) => (
