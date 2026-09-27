@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 
 export function Container({
@@ -74,13 +75,18 @@ export function PageHero({
 }) {
   return (
     <section className="page-hero">
-      <Container>
+      <Container className="page-hero-grid">
         <Breadcrumbs current={title} />
         <div className="page-hero-copy">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h1>{title}</h1>
           <p>{text}</p>
           {children}
+        </div>
+        <div className="page-hero-note" aria-hidden="true">
+          <span>Signals</span>
+          <span>Context</span>
+          <span>Action</span>
         </div>
       </Container>
     </section>
@@ -99,7 +105,9 @@ export function CTA({
           <h2>{title}</h2>
           <p>{text}</p>
         </div>
-        <ButtonLink href="/contact">Request an assessment</ButtonLink>
+        <ButtonLink href="/contact">
+          Plan a first conversation <ArrowRight aria-hidden="true" />
+        </ButtonLink>
       </Container>
     </section>
   );

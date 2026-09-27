@@ -1,15 +1,17 @@
+import Image from "next/image";
 import {
   ArrowRight,
+  BellRing,
   Check,
   CircleGauge,
   Clock3,
-  Eye,
-  HeartHandshake,
+  Gauge,
+  RadioTower,
   ShieldCheck,
   Sparkles,
-  Workflow,
+  UsersRound,
+  Wrench,
 } from "lucide-react";
-import { ArchitectureDiagram } from "@/components/architecture-diagram";
 import { FAQ } from "@/components/faq";
 import {
   ButtonLink,
@@ -18,8 +20,51 @@ import {
   Eyebrow,
   SectionHeading,
 } from "@/components/ui";
-import { faqs, industries, problems, services } from "@/content/site-content";
-import { siteConfig } from "@/config/site";
+import { faqs, industries, services } from "@/content/site-content";
+
+const moments = [
+  {
+    icon: Clock3,
+    label: "When a line stops",
+    title: "Everyone should see the same story.",
+    text: "Replace scattered calls and screenshots with the machine state, alarm, and recent trend in one shared view.",
+  },
+  {
+    icon: Wrench,
+    label: "Before service arrives",
+    title: "Give the technician useful context.",
+    text: "Show what changed, when it changed, and what the machine was doing immediately beforehand.",
+  },
+  {
+    icon: UsersRound,
+    label: "During the daily review",
+    title: "Talk about causes, not conflicting numbers.",
+    text: "Bring operators, owners, and service teams back to one clear operational record.",
+  },
+] as const;
+
+const pilotSteps = [
+  [
+    "01",
+    "Choose the question",
+    "Agree on the machine, the people, and the decision the first view should support.",
+  ],
+  [
+    "02",
+    "Map the signals",
+    "Identify the controller, protocol, useful tags, units, states, and safe access path.",
+  ],
+  [
+    "03",
+    "Build the first view",
+    "Connect a contained data path and shape dashboards and alerts around real work.",
+  ],
+  [
+    "04",
+    "Prove and extend",
+    "Validate the data with users, document the system, then decide what deserves to scale.",
+  ],
+] as const;
 
 export default function Home() {
   return (
@@ -29,49 +74,58 @@ export default function Home() {
           <div className="hero-copy">
             <div className="hero-kicker">
               <span>
-                <Sparkles /> Practical industrial intelligence
+                <Sparkles aria-hidden="true" /> Practical industrial
+                intelligence
               </span>
-              <span>Built around your machines</span>
             </div>
             <h1>
-              Know what your machines are doing—<span>wherever you are.</span>
+              Your factory is already speaking.{" "}
+              <span>Make every signal useful.</span>
             </h1>
             <p>
-              Give operators, owners, and service teams one clear view of
-              production, downtime, energy, and alarms—without replacing the
-              equipment that already works.
+              We connect existing machines to calm, clear operational views—so
+              your team can understand production, downtime, energy, and alarms
+              without replacing the equipment that already works.
             </p>
             <div className="hero-actions">
-              <ButtonLink href={siteConfig.demoUrl}>
-                View Live Demo <ArrowRight />
+              <ButtonLink href="/contact">
+                Plan a one-machine pilot <ArrowRight aria-hidden="true" />
               </ButtonLink>
-              <ButtonLink href="/contact" variant="secondary">
-                Discuss Your Machine
+              <ButtonLink href="/demo" variant="secondary">
+                View Live Demo
               </ButtonLink>
             </div>
-            <div className="hero-proof">
+            <div className="hero-proof" aria-label="Pilot principles">
               <span>
-                <Check /> Start with one machine
+                <Check aria-hidden="true" /> Read-only first
               </span>
               <span>
-                <Check /> Works with existing PLCs
+                <Check aria-hidden="true" /> Works with existing PLCs
               </span>
               <span>
-                <Check /> Clear handover and support
+                <Check aria-hidden="true" /> Clear handover
               </span>
             </div>
           </div>
-          <div
-            className="hero-scene"
-            role="img"
-            aria-label="An operations engineer reviewing machine information on a tablet beside a production line"
-          >
-            <div className="hero-scene-card">
-              <div>
-                <span className="live-dot" /> Line 04 is running
+
+          <div className="hero-visual">
+            <Image
+              src="/factory-collaboration.webp"
+              alt="Two industrial professionals reviewing machine information together on a tablet"
+              width={1672}
+              height={941}
+              priority
+              sizes="(max-width: 900px) 100vw, 52vw"
+            />
+            <div className="hero-signal-card">
+              <div className="signal-card-top">
+                <span>
+                  <i aria-hidden="true" /> Line 04 · Running
+                </span>
+                <small>SIMULATED VIEW</small>
               </div>
-              <strong>All key signals in one place</strong>
-              <div className="scene-stats">
+              <strong>Today, at a glance</strong>
+              <div className="signal-card-metrics">
                 <span>
                   <b>1,284</b>
                   <small>shift output</small>
@@ -86,246 +140,285 @@ export default function Home() {
                 </span>
               </div>
             </div>
+            <div className="hero-caption">
+              <ShieldCheck aria-hidden="true" />
+              <span>
+                <b>Machine control stays at the machine.</b>
+                Monitoring remains a separate, considered layer.
+              </span>
+            </div>
           </div>
         </Container>
       </section>
-      <section className="trust-ribbon" aria-label="Who we help">
+
+      <section className="audience-bar" aria-label="Who we help">
         <Container>
-          <span>Built for practical industrial teams</span>
+          <span>Built for the people responsible for uptime</span>
           <div>Manufacturers</div>
           <div>Machine OEMs</div>
           <div>Plant owners</div>
           <div>Service teams</div>
         </Container>
       </section>
-      <section className="section outcome-section">
+
+      <section className="section story-section">
         <Container>
           <SectionHeading
-            eyebrow="A calmer way to run operations"
-            title="Less chasing. More knowing."
-            text="The value is not another dashboard. It is giving every person the context they need to act sooner and communicate better."
-            align="center"
+            eyebrow="The work behind the dashboard"
+            title="Clarity matters most when something changes."
+            text="A useful connected-machine system does more than collect values. It helps people reach the same understanding sooner."
           />
-          <div className="outcome-grid">
-            <article>
-              <span>
-                <Eye />
-              </span>
-              <h3>See the whole picture</h3>
-              <p>
-                Live machine state, production, trends, and alarms in one
-                view—at the plant or away from it.
-              </p>
-            </article>
-            <article>
-              <span>
-                <Clock3 />
-              </span>
-              <h3>Respond with context</h3>
-              <p>
-                Understand what changed before the phone call, so maintenance
-                and service teams arrive better prepared.
-              </p>
-            </article>
-            <article>
-              <span>
-                <HeartHandshake />
-              </span>
-              <h3>Build trust with clarity</h3>
-              <p>
-                Give operators, managers, and customers a shared source of truth
-                without forcing a one-size-fits-all platform.
-              </p>
-            </article>
-          </div>
-        </Container>
-      </section>
-      <section className="section">
-        <Container>
-          <SectionHeading
-            eyebrow="What gets in the way"
-            title="Good machines should not leave people guessing."
-            text="We turn isolated controller values into useful shared context, shaped around how your operation actually works."
-          />
-          <div className="card-grid four">
-            {problems.map(({ icon: Icon, title, text }) => (
-              <article className="card problem" key={title}>
-                <Icon />
+          <div className="moment-grid">
+            {moments.map(({ icon: Icon, label, title, text }, index) => (
+              <article className="moment-card" key={title}>
+                <div className="moment-number">0{index + 1}</div>
+                <span className="moment-icon">
+                  <Icon aria-hidden="true" />
+                </span>
+                <p>{label}</p>
                 <h3>{title}</h3>
-                <p>{text}</p>
+                <span>{text}</span>
               </article>
             ))}
           </div>
         </Container>
       </section>
-      <section className="section section-dark">
+
+      <section className="section shared-view-section">
+        <Container className="shared-view-grid">
+          <div className="shared-view-copy">
+            <Eyebrow>One view, better conversations</Eyebrow>
+            <h2>See the situation before the phone starts ringing.</h2>
+            <p>
+              The right screen is not crowded with every available tag. It
+              brings forward the state, context, and trend that help somebody
+              decide what to do next.
+            </p>
+            <ul className="check-list">
+              <li>
+                <Check aria-hidden="true" /> Live state that reads at a glance
+              </li>
+              <li>
+                <Check aria-hidden="true" /> Trends that explain what changed
+              </li>
+              <li>
+                <Check aria-hidden="true" /> Alerts with enough context to act
+              </li>
+              <li>
+                <Check aria-hidden="true" /> Views shaped for each role
+              </li>
+            </ul>
+            <ButtonLink href="/demo" variant="text">
+              Explore the simulated demo <ArrowRight aria-hidden="true" />
+            </ButtonLink>
+          </div>
+
+          <div
+            className="decision-board"
+            aria-label="Simulated machine overview"
+          >
+            <div className="decision-board-head">
+              <div>
+                <span className="live-dot" />
+                <div>
+                  <small>PACKING LINE 04</small>
+                  <b>Running normally</b>
+                </div>
+              </div>
+              <span>Updated now</span>
+            </div>
+            <div className="decision-primary">
+              <div>
+                <small>Shift progress</small>
+                <strong>1,284</strong>
+                <span>of 1,600 units</span>
+              </div>
+              <div
+                className="decision-progress"
+                aria-label="80 percent of shift target"
+              >
+                <span style={{ width: "80%" }} />
+              </div>
+            </div>
+            <div className="decision-metrics">
+              <article>
+                <Gauge aria-hidden="true" />
+                <small>Pressure</small>
+                <strong>7.2 bar</strong>
+                <span>Within range</span>
+              </article>
+              <article>
+                <CircleGauge aria-hidden="true" />
+                <small>Cycle time</small>
+                <strong>4.8 sec</strong>
+                <span>Stable</span>
+              </article>
+              <article>
+                <BellRing aria-hidden="true" />
+                <small>Attention</small>
+                <strong>1 advisory</strong>
+                <span>Review soon</span>
+              </article>
+            </div>
+            <div className="decision-event">
+              <span>10:42</span>
+              <div>
+                <b>Pressure recovered after a brief dip</b>
+                <p>No stop recorded. Advisory remains visible for review.</p>
+              </div>
+            </div>
+            <p className="simulation-label">
+              Illustrative interface · all values are simulated
+            </p>
+          </div>
+        </Container>
+      </section>
+
+      <section className="section service-story">
         <Container>
           <SectionHeading
-            eyebrow="What we build"
-            title="A reliable path from signal to screen."
-            text="Connectivity, cloud engineering, and product design delivered as one coherent system."
+            eyebrow="What we bring together"
+            title="One accountable path from machine to moment of decision."
+            text="Connectivity, cloud engineering, and interface design are treated as one system—not three disconnected projects."
           />
-          <div className="card-grid four">
-            {services.map(({ icon: Icon, title, text }) => (
-              <article className="card service" key={title}>
-                <span className="icon-box">
-                  <Icon />
+          <div className="service-story-grid">
+            {services.map(({ icon: Icon, title, text }, index) => (
+              <article key={title}>
+                <span className="service-story-number">
+                  {String(index + 1).padStart(2, "0")}
                 </span>
+                <Icon aria-hidden="true" />
                 <h3>{title}</h3>
                 <p>{text}</p>
               </article>
             ))}
           </div>
           <ButtonLink href="/services" variant="text">
-            Explore every service <ArrowRight />
+            See the full service capability <ArrowRight aria-hidden="true" />
           </ButtonLink>
         </Container>
       </section>
-      <section className="section">
+
+      <section className="section pilot-journey">
         <Container>
-          <SectionHeading
-            eyebrow="Device to dashboard"
-            title="A transparent industrial data architecture."
-            text="Each layer has a clear job: acquire safely, transport securely, store usefully, and present the right context."
-          />
-          <ArchitectureDiagram />
-          <div className="feature-strip">
+          <div className="pilot-intro">
             <div>
-              <ShieldCheck />
-              <b>Secure by design</b>
-              <span>
-                Encrypted transport, scoped access, and separation from control.
-              </span>
+              <Eyebrow>A contained first step</Eyebrow>
+              <h2>Start narrow. Learn fast. Scale with intent.</h2>
             </div>
-            <div>
-              <Workflow />
-              <b>Integration-ready</b>
-              <span>
-                Practical interfaces for existing systems and future
-                applications.
-              </span>
-            </div>
-            <div>
-              <CircleGauge />
-              <b>Built for operators</b>
-              <span>
-                Clear states, trends, alarms, and reports—not dashboard theatre.
-              </span>
-            </div>
+            <p>
+              A focused pilot turns assumptions into evidence without forcing a
+              factory-wide commitment. One useful question, one machine, one
+              working data path.
+            </p>
           </div>
-        </Container>
-      </section>
-      <section className="section tint">
-        <Container>
-          <SectionHeading
-            eyebrow="Where it fits"
-            title="Built around real industrial operating contexts."
-          />
-          <div className="industry-grid">
-            {industries.map(([title, text]) => (
-              <article key={title}>
-                <span>0{industries.findIndex((i) => i[0] === title) + 1}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
+          <ol className="pilot-steps">
+            {pilotSteps.map(([number, title, text]) => (
+              <li key={number}>
+                <span>{number}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+              </li>
             ))}
-          </div>
-          <ButtonLink href="/industries" variant="text">
-            View industry applications <ArrowRight />
-          </ButtonLink>
-        </Container>
-      </section>
-      <section className="section">
-        <Container className="split">
-          <div>
-            <SectionHeading
-              eyebrow="Why work with us"
-              title="Technical depth, explained plainly."
-              text="The strongest industrial systems are designed around constraints: old controllers, mixed protocols, limited networks, operator habits, and maintainability."
-            />
-            <ul className="check-list">
-              <li>
-                <Check /> One accountable path across edge, cloud, and interface
-              </li>
-              <li>
-                <Check /> Small pilot before broader rollout
-              </li>
-              <li>
-                <Check /> Documentation and handover built into delivery
-              </li>
-              <li>
-                <Check /> No unsupported claims or forced platform lock-in
-              </li>
-            </ul>
-          </div>
-          <div className="pilot-card">
-            <Eyebrow>Pilot engagement</Eyebrow>
-            <h3>Prove the data path on one machine.</h3>
-            <p>
-              We assess connectivity, agree a focused signal list, configure the
-              pipeline, and deliver a working dashboard view for review.
-            </p>
-            <ol>
-              <li>
-                <span>01</span>Machine and protocol assessment
-              </li>
-              <li>
-                <span>02</span>Selected data-point mapping
-              </li>
-              <li>
-                <span>03</span>Live dashboard and alert pilot
-              </li>
-            </ol>
-            <ButtonLink href="/contact">Get a pilot estimate</ButtonLink>
-          </div>
-        </Container>
-      </section>
-      <section className="section demo-band">
-        <Container className="demo-grid">
-          <div>
-            <Eyebrow>See the concept</Eyebrow>
-            <h2>A simulated machine. A working operational view.</h2>
-            <p>
-              Explore purity, pressure, temperature, flow, production, alarms,
-              and a telemetry trend using clearly labelled sample data.
-            </p>
-            <ButtonLink href="/demo">
-              Open the demo preview <ArrowRight />
+          </ol>
+          <div className="pilot-link">
+            <ButtonLink href="/how-it-works">
+              See how a pilot works <ArrowRight aria-hidden="true" />
             </ButtonLink>
           </div>
-          <div className="mini-dashboard">
+        </Container>
+      </section>
+
+      <section className="section industry-section">
+        <Container className="industry-story-grid">
+          <div className="industry-image">
+            <Image
+              src="/industrial-operator.png"
+              alt="An operations engineer reviewing a production line with a tablet"
+              width={1536}
+              height={1024}
+              sizes="(max-width: 900px) 100vw, 48vw"
+            />
             <div>
-              <span className="live-dot" /> ONLINE
+              <RadioTower aria-hidden="true" />
+              <span>
+                Built around existing equipment and real operating constraints.
+              </span>
             </div>
-            <strong>
-              99.2<small>% purity</small>
-            </strong>
-            <div className="bars">
-              <i />
-              <i />
-              <i />
-              <i />
-              <i />
-              <i />
-              <i />
-              <i />
+          </div>
+          <div>
+            <Eyebrow>Where the approach fits</Eyebrow>
+            <h2>Different machines. The same need for dependable context.</h2>
+            <p>
+              We adapt the signal model and interface to the equipment, process,
+              and people already in place.
+            </p>
+            <div className="industry-list">
+              {industries.map(([title], index) => (
+                <span key={title}>
+                  <b>{String(index + 1).padStart(2, "0")}</b> {title}
+                </span>
+              ))}
             </div>
-            <p>Telemetry is simulated for demonstration.</p>
+            <ButtonLink href="/industries" variant="text">
+              Explore industry applications <ArrowRight aria-hidden="true" />
+            </ButtonLink>
           </div>
         </Container>
       </section>
-      <section className="section">
+
+      <section className="section demo-spotlight">
+        <Container className="demo-spotlight-grid">
+          <div>
+            <Eyebrow>Try the idea before the conversation</Eyebrow>
+            <h2>A working preview, with the pretending clearly labelled.</h2>
+            <p>
+              Explore a simulated oxygen generator with live-changing readings,
+              production context, a telemetry trend, and an alarm workflow.
+            </p>
+            <ButtonLink href="/demo">
+              Open the simulated machine <ArrowRight aria-hidden="true" />
+            </ButtonLink>
+          </div>
+          <div className="demo-preview-card">
+            <div>
+              <span className="live-dot" /> MACHINE OX-01
+              <small>SIMULATED</small>
+            </div>
+            <strong>
+              99.2 <span>% purity</span>
+            </strong>
+            <div className="demo-preview-detail">
+              <span>
+                <b>7.2 bar</b> Pressure
+              </span>
+              <span>
+                <b>42.8 Nm³/h</b> Flow
+              </span>
+              <span>
+                <b>1</b> Advisory
+              </span>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="section faq-section">
         <Container className="faq-wrap">
           <SectionHeading
             eyebrow="Questions before a pilot"
             title="Straight answers for practical decisions."
+            text="A first conversation should reduce uncertainty, not create pressure."
           />
           <FAQ items={faqs} />
         </Container>
       </section>
+
       <CTA
         title="Bring one machine into view."
-        text="Tell us what controller you have, what the team cannot see today, and what a useful first outcome would look like."
+        text="Tell us what your team cannot see today. We’ll help frame a contained, useful first step."
       />
     </>
   );
