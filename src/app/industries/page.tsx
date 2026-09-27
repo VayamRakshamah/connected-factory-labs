@@ -1,4 +1,14 @@
 import type { Metadata } from "next";
+import {
+  Beef,
+  Boxes,
+  Factory,
+  PackageCheck,
+  Snowflake,
+  Sun,
+  Waves,
+  Wind,
+} from "lucide-react";
 import { industries } from "@/content/site-content";
 import { CTA, Container, PageHero } from "@/components/ui";
 export const metadata: Metadata = {
@@ -16,6 +26,16 @@ const more = [
     "Remote status, downtime context, condition alerts, energy visibility, customer service tools",
   ],
 ];
+const industryIcons = [
+  PackageCheck,
+  Boxes,
+  Beef,
+  Snowflake,
+  Wind,
+  Waves,
+  Sun,
+  Factory,
+] as const;
 export default function Industries() {
   return (
     <>
@@ -31,9 +51,10 @@ export default function Industries() {
               <article key={title}>
                 <div className="industry-photo" aria-hidden="true">
                   <span>{String(i + 1).padStart(2, "0")}</span>
-                  <i />
-                  <i />
-                  <i />
+                  {(() => {
+                    const Icon = industryIcons[i];
+                    return <Icon />;
+                  })()}
                 </div>
                 <h2>{title}</h2>
                 <p>{text}</p>
